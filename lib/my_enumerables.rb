@@ -16,6 +16,62 @@ module Enumerable
     end
     select_array
   end
+
+  def my_all?
+    for i in 0...self.length
+      unless yield self[i]
+        return false
+      end
+    end
+    true
+  end
+
+  def my_any?
+    for i in 0...self.length
+      if yield self[i]
+        return true
+      end
+    end
+    false
+  end
+
+  def my_none?
+    for i in 0...self.length
+      if yield self[i]
+        return false
+      end
+    end
+    true
+  end
+
+  def my_count
+    return self.length unless block_given?
+
+    value = 0
+    for i in 0...self.length
+      if yield self[i]
+        value += 1
+      end
+    end
+    value
+  end
+
+  def my_map
+    result = Array.new
+
+    for i in 0...self.length
+      result.push(yield self[i])
+    end
+
+    result
+  end
+
+  def my_inject(initial)
+    for i in 0...self.length
+      initial = yield initial,self[i]
+    end
+    initial
+  end
 end
 
 # You will first have to define my_each
